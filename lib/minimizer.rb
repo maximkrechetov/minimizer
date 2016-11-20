@@ -2,6 +2,7 @@ require 'open-uri'
 require 'nokogiri'
 require 'uri'
 require 'css_parser'
+require 'fileutils'
 include CssParser
 
 class Minimizer
@@ -26,6 +27,10 @@ class Minimizer
   end
 
   def minimize
+    unless File.directory?('public/css/tmp')
+      FileUtils.mkdir_p('public/css/tmp')
+    end
+
     File.open("public/css/tmp/#{@uri.host}.minimized.css", 'w+') do |file|
       _minimize_css(file)
     end
